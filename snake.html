@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Snake Game</title>
     <link rel="stylesheet" href="snake.css">
-    <script src="snake.js"></script>
 </head>
 <body>
     <h1>Snake Game</h1>
-    <canvas id="canvas"></canvas>
-    <div id="icon">
-        <div id="food"></div>
-        <div id="premium-food"></div>
-        <div id="poison"></div>
+    <div id="canvas-layout">
+        <canvas id="canvas" width="500" height="500"></canvas>
     </div>
-    <div id="score"></div>
+    <div id="score-layout">
+        <div id="score-display">SCORE</div>
+        <div id="score"></div>
+        <div id="icon">
+            <div id="food">: normal fruit</div>
+            <div id="premium-food">: premium fruit</div>
+            <div id="poison">: rotten fruit</div>
+        </div>
+    </div>
     <div id="controls">
         <button id="pause">PAUSE</button>
         <button id="reset">RESET</button>
@@ -27,5 +31,6 @@
         <div>⬅️ or A</div>
         <div>➡️ or D </div>
     </div>
+    <script src="snake.js"></script>
 </body>
 </html>
