@@ -4,6 +4,11 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const scoreEl = document.getElementById('score');
+const pauseEl = document.getElementById('pause');
+const resetEl = document.getElementById('reset');
+const playEl = document.getElementById('play-descript');
+let pause = false;
+let pauseTrack = 0; // avoid repeated execute the timer function.
 
 // canvas: 500 500
 const blockSize = 20, columns = 25, rows = 25;
@@ -14,6 +19,35 @@ function setScore() {
     scoreEl.innerHTML = `${score}`;
 }
 
+function clickPause() {
+    if (pause == true) {
+        pause = false;
+    } else if (pause == false && snake.len !== 3) {
+        pause = true;
+    }
+}
+
+function timer(time = 60) {
+    if (time == 0) {
+        pause = false;
+        pauseEl.innerHTML = 'PAUSE';
+        pauseTrack = 0;
+        return;
+    }
+    if (pause == false) {
+        pauseEl.innerHTML = 'PAUSE';
+        pauseTrack = 0;
+        return;
+    }
+    pauseEl.innerHTML = `${time}`;
+    time--;
+    setTimeout(timer, 1000, time);
+}
+
+function resetGame() {
+    location.reload();
+}
+
 function draw() {
     if (score > 150) snakeSpeed = 16;
     else if (score > 100) snakeSpeed = 14;
@@ -21,6 +55,8 @@ function draw() {
 
     let result = isGameOver();
     if (result) {
+        playEl.innerHTML = 'Game Over';
+        playEl.style.display = 'block';
         return;
     }
 
@@ -37,10 +73,17 @@ function draw() {
 
     // snake moving
     context.fillStyle = '#DCDCDC';
-    snake.direction();
-    // moving: [12,0], [11, 0], [10, 0] -> [13, 0], [12, 0], [11, 0]
-    snake.body.unshift([snake.x, snake.y]);
-    if (snake.body.length > snake.len) snake.body.pop();
+    if (!pause) {
+        snake.direction();
+        // moving: [12,0], [11, 0], [10, 0] -> [13, 0], [12, 0], [11, 0]
+        snake.body.unshift([snake.x, snake.y]);
+        if (snake.body.length > snake.len) snake.body.pop();
+    } else if (pause && pauseTrack == 0) {
+        pauseTrack = 1;
+        timer();
+    }
+    
+    // draw the snake
     for (let i = 0; i < snake.body.length; i++) {
         context.fillRect(snake.body[i][0], snake.body[i][1], blockSize, blockSize);
     }
@@ -78,7 +121,6 @@ function draw() {
 function isGameOver() {
     if (snake.velocityX === 0 && snake.velocityY === 0) return false;
     if (snake.x < 0 || snake.y < 0 || snake.x === canvas.width || snake.y === canvas.height) {
-        console.log('beyond the border')
         return true;
     };
     for (let i = 3; i < snake.body.length; i++) {
@@ -145,15 +187,19 @@ class Snake {
     // https://www.toptal.com/developers/keycode
     changeDirection(event) {
         if ((event.code === 'ArrowUp' || event.code === 'KeyW') && this.velocityY !== 1) {
+            playEl.style.display = "none";
             this.velocityX = 0;
             this.velocityY = -1;
         } else if ((event.code === 'ArrowDown' || event.code === 'KeyS') && this.velocityY !== -1) {
+            playEl.style.display = "none";
             this.velocityX = 0;
             this.velocityY = 1;
         } else if ((event.code === 'ArrowRight' || event.code === 'KeyD') && this.velocityX !== -1) {
+            playEl.style.display = "none";
             this.velocityX = 1;
             this.velocityY = 0;
         } else if ((event.code === 'ArrowLeft' || event.code === 'KeyA') && this.velocityX !== 1) {
+            playEl.style.display = "none";
             this.velocityX = -1;
             this.velocityY = 0;
         }
@@ -173,4 +219,7 @@ food.placeFood();
 // Value of this inside event listener callback will be the HTML element on which the event was triggered.
 // Alternate solution to the above comments: save the value of this inside the constructor: myClassThis = this and then use myClassThis wherever you want this inside the class.
 document.body.addEventListener('keydown', snake.changeDirection.bind(snake));
+document.body.addEventListener('keydown', (event) => event.code === "Space" ? clickPause() : null);
+pauseEl.addEventListener('click', clickPause);
+resetEl.addEventListener('click', resetGame);
 draw();
