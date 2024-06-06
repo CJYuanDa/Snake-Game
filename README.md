@@ -73,11 +73,11 @@ document.body.addEventListener('keydown', snake.changeDirection.bind(snake));
     &nbsp; 
     <br>
     <p align="center">Game Start</p>
-    <img src="">
+    <img src="https://github.com/CJYuanDa/Snake-Game/blob/master/app_image/snake_game.jpg?raw=true">
     </td> 
 <td width="50%">
     <br>
-    <p align="center">End</p>
-    <img src="">  
+    <p align="center">Game Over</p>
+    <img src="https://github.com/CJYuanDa/Snake-Game/blob/master/app_image/snake_game_end.jpg?raw=true">  
 </td>
 </table>
