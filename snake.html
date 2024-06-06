@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="snake.css">
+</head>
+<body>
+    <h1>Snake Game</h1>
+    <div id="canvas-layout">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div id="right-layout">
+        <div id="score-display">SCORE</div>
+        <div id="score"></div>
+        <div id="icon">
+            <div id="icon-list">
+                <div id="food"></div>
+                <div id="descript">: normal fruit</div>
+            </div>
+            <div id="icon-list">
+                <div id="premium-food"></div>
+                <div id="descript">: premium fruit</div>
+            </div>
+            <div id="icon-list">
+                <div id="poison"></div>
+                <div id="descript">: rotten fruit</div>
+            </div>
+        </div>
+    </div>
+    <div id="controls">
+        <button id="pause">PAUSE</button>
+        <button id="reset">RESET</button>
+    </div>
+    <div id="play-descript">Press control keys to start</div>
+    <div id="play">
+        <div id="key-list">
+            <div id="key-group">
+                <div id="key">A /</div>
+                <div id="key">⬅️</div>
+            </div>
+            <div id="key-group">
+                <div id="key">W /</div>
+                <div id="key">⬆️</div>
+            </div>
+            <div id="key-group">
+                <div id="key">S /</div>
+                <div id="key">⬇️</div>
+            </div>
+            <div id="key-group">
+                <div id="key">D /</div>
+                <div id="key">➡️</div>
+            </div>
+        </div>
+    </div>
+    <script src="snake.js"></script>
+</body>
+</html>
